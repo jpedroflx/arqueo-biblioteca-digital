@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "devise/jwt"
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -306,8 +308,27 @@ Devise.setup do |config|
   config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
+  # config.sign_in_after_change_password = true
+
+  # API: evita redirects HTML; respostas serão JSON/401/403 diretas
+  config.navigational_formats = []
 
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+  # API: evita redirects HTML; respostas serão JSON/401/403 diretas
+  config.navigational_formats = []
+
+  # JWT – usa a chave em rails credentials:edit
+  config.jwt do |jwt|
+    jwt.secret = Rails.application.credentials.devise_jwt_secret_key
+    jwt.dispatch_requests = [
+      ['POST', %r{^/login$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/logout$}]
+    ]
+    jwt.expiration_time = 1.day.to_i
+  end
+
 end
