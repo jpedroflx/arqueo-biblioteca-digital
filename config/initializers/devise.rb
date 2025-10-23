@@ -319,9 +319,9 @@ Devise.setup do |config|
   # API: evita redirects HTML; respostas serão JSON/401/403 diretas
   config.navigational_formats = []
 
-  # JWT – usa a chave em rails credentials:edit
+  # JWT – usa ENV ou, se não houver, secret_key_base (funciona em dev)
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise_jwt_secret_key
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY'].presence || Rails.application.secret_key_base
     jwt.dispatch_requests = [
       ['POST', %r{^/login$}]
     ]
