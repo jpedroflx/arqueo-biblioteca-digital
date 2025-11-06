@@ -55,7 +55,7 @@ gem "rswag-api", "~> 2.16"
 
 gem "rswag-ui", "~> 2.16"
 
-gem "rswag-specs", "~> 2.16"
+gem "rswag-specs", "~> 2.17"
 
 gem "devise", "~> 4.9"
 
